@@ -8,9 +8,9 @@
 
 #import "FFFrameExtractor.h"
 
-#include <avcodec.h>
-#include <avformat.h>
-#include <swscale.h>
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
 
 
 // http://stackoverflow.com/questions/18003034/installing-ffmpeg-ios-libraries-armv7-armv7s-i386-and-universal-on-mac-with-10/19370679#19370679
@@ -156,6 +156,8 @@ int8_t SetupAVContextForURL(AVFormatContext **pFormatContext, AVCodecContext **p
             });
         } else {
             NSLog(@"Error decoding next frame.");
+            [self stop];
+            [self start];
         }
     } else {
         NSLog(@"No longer run this");
@@ -193,7 +195,7 @@ int8_t SetupAVContextForURL(AVFormatContext **pFormatContext, AVCodecContext **p
     }
     
     // close the input file
-    avformat_close_input(&pFormatContext);
+  //  avformat_close_input(&pFormatContext);
     
     if (pFormatContext != NULL) {
         avformat_free_context(pFormatContext);
